@@ -1,0 +1,835 @@
+{
+  "info": {
+    "_postman_id": "efa29d47-eefc-410b-9596-fc6cbe3f79ae",
+    "name": "Trello",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "55705316",
+    "_collection_link": "https://go.postman.co/collection/55705316-efa29d47-eefc-410b-9596-fc6cbe3f79ae?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Create a Board",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Response has an ID\", function () {\r",
+              "const json= pm.response.json();\r",
+              "pm.expect(json.id).to.not.be.null; \r",
+              "});\r",
+              "\r",
+              "const json= pm.response.json();\r",
+              "pm.environment.set(\"boardId\", json.id);"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "https://api.trello.com/1/boards/?name=Test Board &key={{API_KEY}}&token={{Token}}",
+          "protocol": "https",
+          "host": [
+            "api",
+            "trello",
+            "com"
+          ],
+          "path": [
+            "1",
+            "boards",
+            ""
+          ],
+          "query": [
+            {
+              "key": "name",
+              "value": "Test Board "
+            },
+            {
+              "key": "key",
+              "value": "{{API_KEY}}"
+            },
+            {
+              "key": "token",
+              "value": "{{Token}}"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Getting Lists on Board",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Check if the response contains the correct list names\", function () {\r",
+              "    const json= pm.response.json();\r",
+              "   json.forEach(function(list) {\r",
+              "    if (list.name == \"To Do\") {\r",
+              "        pm.environment.set(\"ToDoListId\", list.id);}\r",
+              "    else if (list.name == \"Doing\") {\r",
+              "        pm.environment.set(\"DoingListId\", list.id);}\r",
+              "    else if (list.name == \"Done\") {\r",
+              "        pm.environment.set(\"DoneListId\", list.id);}\r",
+              "});\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "https://api.trello.com/1/boards/{{boardId}}/lists?key={{API_KEY}}&token={{Token}}",
+          "protocol": "https",
+          "host": [
+            "api",
+            "trello",
+            "com"
+          ],
+          "path": [
+            "1",
+            "boards",
+            "{{boardId}}",
+            "lists"
+          ],
+          "query": [
+            {
+              "key": "key",
+              "value": "{{API_KEY}}"
+            },
+            {
+              "key": "token",
+              "value": "{{Token}}"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Archiving To Do",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "url": {
+          "raw": "https://api.trello.com/1/lists/{{ToDoListId}}/closed?key={{API_KEY}}&token={{Token}}&value=true",
+          "protocol": "https",
+          "host": [
+            "api",
+            "trello",
+            "com"
+          ],
+          "path": [
+            "1",
+            "lists",
+            "{{ToDoListId}}",
+            "closed"
+          ],
+          "query": [
+            {
+              "key": "key",
+              "value": "{{API_KEY}}"
+            },
+            {
+              "key": "token",
+              "value": "{{Token}}"
+            },
+            {
+              "key": "value",
+              "value": "true"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Archiving Doing",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "url": {
+          "raw": "https://api.trello.com/1/lists/{{DoingListId}}/closed?key={{API_KEY}}&token={{Token}}&value=true",
+          "protocol": "https",
+          "host": [
+            "api",
+            "trello",
+            "com"
+          ],
+          "path": [
+            "1",
+            "lists",
+            "{{DoingListId}}",
+            "closed"
+          ],
+          "query": [
+            {
+              "key": "key",
+              "value": "{{API_KEY}}"
+            },
+            {
+              "key": "token",
+              "value": "{{Token}}"
+            },
+            {
+              "key": "value",
+              "value": "true"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Archiving Done",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "url": {
+          "raw": "https://api.trello.com/1/lists/{{DoneListId}}/closed?key={{API_KEY}}&token={{Token}}&value=true",
+          "protocol": "https",
+          "host": [
+            "api",
+            "trello",
+            "com"
+          ],
+          "path": [
+            "1",
+            "lists",
+            "{{DoneListId}}",
+            "closed"
+          ],
+          "query": [
+            {
+              "key": "key",
+              "value": "{{API_KEY}}"
+            },
+            {
+              "key": "token",
+              "value": "{{Token}}"
+            },
+            {
+              "key": "value",
+              "value": "true"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Backlog List",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"List has an ID\", function(){\r",
+              "const json= pm.response.json();\r",
+              "pm.expect(json.id).to.not.be.null; \r",
+              "});\r",
+              "\r",
+              "const json= pm.response.json();\r",
+              "pm.environment.set(\"BacklogListId\", json.id);"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "https://api.trello.com/1/boards/{{boardId}}/lists?name=Backlog&key={{API_KEY}}&token={{Token}}",
+          "protocol": "https",
+          "host": [
+            "api",
+            "trello",
+            "com"
+          ],
+          "path": [
+            "1",
+            "boards",
+            "{{boardId}}",
+            "lists"
+          ],
+          "query": [
+            {
+              "key": "name",
+              "value": "Backlog"
+            },
+            {
+              "key": "key",
+              "value": "{{API_KEY}}"
+            },
+            {
+              "key": "token",
+              "value": "{{Token}}"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Completed List",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"List has an ID\", function(){\r",
+              "const json= pm.response.json();\r",
+              "pm.expect(json.id).to.not.be.null; \r",
+              "});\r",
+              "\r",
+              "const json= pm.response.json();\r",
+              "pm.environment.set(\"CompletedListId\", json.id);"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "https://api.trello.com/1/boards/{{boardId}}/lists?name=Completed&key={{API_KEY}}&token={{Token}}",
+          "protocol": "https",
+          "host": [
+            "api",
+            "trello",
+            "com"
+          ],
+          "path": [
+            "1",
+            "boards",
+            "{{boardId}}",
+            "lists"
+          ],
+          "query": [
+            {
+              "key": "name",
+              "value": "Completed"
+            },
+            {
+              "key": "key",
+              "value": "{{API_KEY}}"
+            },
+            {
+              "key": "token",
+              "value": "{{Token}}"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Design Login Page Card_Backlog",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Card created successfully\", function () {\r",
+              "    const json= pm.response.json();\r",
+              "    pm.expect(json.id).to.not.be.null;\r",
+              "});\r",
+              "\r",
+              "const json= pm.response.json();\r",
+              "pm.environment.set(\"DesignLoginId\", json.id);"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "https://api.trello.com/1/cards?idList={{BacklogListId}}&key={{API_KEY}}&token={{Token}}&name=Design Login Page",
+          "protocol": "https",
+          "host": [
+            "api",
+            "trello",
+            "com"
+          ],
+          "path": [
+            "1",
+            "cards"
+          ],
+          "query": [
+            {
+              "key": "idList",
+              "value": "{{BacklogListId}}"
+            },
+            {
+              "key": "key",
+              "value": "{{API_KEY}}"
+            },
+            {
+              "key": "token",
+              "value": "{{Token}}"
+            },
+            {
+              "key": "name",
+              "value": "Design Login Page"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Write API Documentation Card_Backlog",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Card created successfully\", function () {\r",
+              "    const json= pm.response.json();\r",
+              "    pm.expect(json.id).to.not.be.null;\r",
+              "});\r",
+              "\r",
+              "const json= pm.response.json();\r",
+              "pm.environment.set(\"WriteApiId\", json.id);"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "https://api.trello.com/1/cards?idList={{BacklogListId}}&key={{API_KEY}}&token={{Token}}&name=Write API Documentation ",
+          "protocol": "https",
+          "host": [
+            "api",
+            "trello",
+            "com"
+          ],
+          "path": [
+            "1",
+            "cards"
+          ],
+          "query": [
+            {
+              "key": "idList",
+              "value": "{{BacklogListId}}"
+            },
+            {
+              "key": "key",
+              "value": "{{API_KEY}}"
+            },
+            {
+              "key": "token",
+              "value": "{{Token}}"
+            },
+            {
+              "key": "name",
+              "value": "Write API Documentation "
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Set Up Project Repository Card_Completed",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Card created successfully\", function () {\r",
+              "    const json= pm.response.json();\r",
+              "    pm.expect(json.id).to.not.be.null;\r",
+              "});\r",
+              "\r",
+              "const json= pm.response.json();\r",
+              "pm.environment.set(\"SetRepoId\", json.id);"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "https://api.trello.com/1/cards?idList={{CompletedListId}}&key={{API_KEY}}&token={{Token}}&name=Set Up Project Repository",
+          "protocol": "https",
+          "host": [
+            "api",
+            "trello",
+            "com"
+          ],
+          "path": [
+            "1",
+            "cards"
+          ],
+          "query": [
+            {
+              "key": "idList",
+              "value": "{{CompletedListId}}"
+            },
+            {
+              "key": "key",
+              "value": "{{API_KEY}}"
+            },
+            {
+              "key": "token",
+              "value": "{{Token}}"
+            },
+            {
+              "key": "name",
+              "value": "Set Up Project Repository"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Define Project Requirements Card_Completed",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Card created successfully\", function () {\r",
+              "    const json= pm.response.json();\r",
+              "    pm.expect(json.id).to.not.be.null;\r",
+              "});\r",
+              "\r",
+              "const json= pm.response.json();\r",
+              "pm.environment.set(\"DefineReqsId\", json.id);"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "https://api.trello.com/1/cards?idList={{CompletedListId}}&key={{API_KEY}}&token={{Token}}&name=Define Project Requirements ",
+          "protocol": "https",
+          "host": [
+            "api",
+            "trello",
+            "com"
+          ],
+          "path": [
+            "1",
+            "cards"
+          ],
+          "query": [
+            {
+              "key": "idList",
+              "value": "{{CompletedListId}}"
+            },
+            {
+              "key": "key",
+              "value": "{{API_KEY}}"
+            },
+            {
+              "key": "token",
+              "value": "{{Token}}"
+            },
+            {
+              "key": "name",
+              "value": "Define Project Requirements "
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Design Login Page Card",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "https://api.trello.com/1/cards/{{DesignLoginId}}?key={{API_KEY}}&token={{Token}}",
+          "protocol": "https",
+          "host": [
+            "api",
+            "trello",
+            "com"
+          ],
+          "path": [
+            "1",
+            "cards",
+            "{{DesignLoginId}}"
+          ],
+          "query": [
+            {
+              "key": "key",
+              "value": "{{API_KEY}}"
+            },
+            {
+              "key": "token",
+              "value": "{{Token}}"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Write API Documentation Card",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "https://api.trello.com/1/cards/{{WriteApiId}}?key={{API_KEY}}&token={{Token}}",
+          "protocol": "https",
+          "host": [
+            "api",
+            "trello",
+            "com"
+          ],
+          "path": [
+            "1",
+            "cards",
+            "{{WriteApiId}}"
+          ],
+          "query": [
+            {
+              "key": "key",
+              "value": "{{API_KEY}}"
+            },
+            {
+              "key": "token",
+              "value": "{{Token}}"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Set Up Project Repository Card",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "https://api.trello.com/1/cards/{{SetRepoId}}?key={{API_KEY}}&token={{Token}}",
+          "protocol": "https",
+          "host": [
+            "api",
+            "trello",
+            "com"
+          ],
+          "path": [
+            "1",
+            "cards",
+            "{{SetRepoId}}"
+          ],
+          "query": [
+            {
+              "key": "key",
+              "value": "{{API_KEY}}"
+            },
+            {
+              "key": "token",
+              "value": "{{Token}}"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Define Project Requirements Card",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "https://api.trello.com/1/cards/{{DefineReqsId}}?key={{API_KEY}}&token={{Token}}",
+          "protocol": "https",
+          "host": [
+            "api",
+            "trello",
+            "com"
+          ],
+          "path": [
+            "1",
+            "cards",
+            "{{DefineReqsId}}"
+          ],
+          "query": [
+            {
+              "key": "key",
+              "value": "{{API_KEY}}"
+            },
+            {
+              "key": "token",
+              "value": "{{Token}}"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Archiving Backlog",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "url": {
+          "raw": "https://api.trello.com/1/lists/{{BacklogListId}}/closed?key={{API_KEY}}&token={{Token}}&value=true",
+          "protocol": "https",
+          "host": [
+            "api",
+            "trello",
+            "com"
+          ],
+          "path": [
+            "1",
+            "lists",
+            "{{BacklogListId}}",
+            "closed"
+          ],
+          "query": [
+            {
+              "key": "key",
+              "value": "{{API_KEY}}"
+            },
+            {
+              "key": "token",
+              "value": "{{Token}}"
+            },
+            {
+              "key": "value",
+              "value": "true"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Archiving Completed",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "url": {
+          "raw": "https://api.trello.com/1/lists/{{CompletedListId}}/closed?key={{API_KEY}}&token={{Token}}&value=true",
+          "protocol": "https",
+          "host": [
+            "api",
+            "trello",
+            "com"
+          ],
+          "path": [
+            "1",
+            "lists",
+            "{{CompletedListId}}",
+            "closed"
+          ],
+          "query": [
+            {
+              "key": "key",
+              "value": "{{API_KEY}}"
+            },
+            {
+              "key": "token",
+              "value": "{{Token}}"
+            },
+            {
+              "key": "value",
+              "value": "true"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete the Board",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "https://api.trello.com/1/boards/{{boardId}}?key={{API_KEY}}&token={{Token}}",
+          "protocol": "https",
+          "host": [
+            "api",
+            "trello",
+            "com"
+          ],
+          "path": [
+            "1",
+            "boards",
+            "{{boardId}}"
+          ],
+          "query": [
+            {
+              "key": "key",
+              "value": "{{API_KEY}}"
+            },
+            {
+              "key": "token",
+              "value": "{{Token}}"
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
