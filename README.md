@@ -36,7 +36,6 @@ everything started to flow.
 ## Results
 18 requests — 0 failures
 
-![Collection Runner Results]
 <img width="1547" height="867" alt="image" src="https://github.com/user-attachments/assets/6e3ac1dd-124f-430d-832d-8adfba2c740d" />
 
 
